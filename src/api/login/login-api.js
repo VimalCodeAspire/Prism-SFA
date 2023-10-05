@@ -20,14 +20,33 @@ export default async function login(mobile,password){
 
         }
       )
-    return response.data.token
-    } catch (error) {
-        console.log(error)
-        Swal.fire({
-            title: 'User Not Found',
-            text: 'This user in not registered with us.',
-            icon: 'error',
-            confirmButtonText: 'ok'
-          })
+    return {token:response.data.token,statusCode:response.status}
+    } catch (err) {
+        const error = err.response.data
+        if (error.message=='Invalid Mobile Or Password !'){
+            Swal.fire({
+                title: 'User Not Found',
+                text: 'This user in not registered with us.',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              })
+        }
+        else  if (error.statusCode==400) {
+            Swal.fire({
+                title: 'Access Denied',
+                text: 'Your are forbidden to use this.',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              })
+        }
+        else{
+            Swal.fire({
+                title: 'Something Went Wrong',
+                text: 'Something Went Wrong Can\'t login.',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              })
+        }
+       
     }
 }

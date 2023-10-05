@@ -15,7 +15,7 @@ function AuthIndex (){
                     <div className="container-xxl">
                         <div className="row g-0">
                             <LeftSide />
-                            <Route exact path={`${process.env.PUBLIC_URL}/sign-in`} component={SignIn} /> 
+                            <Route exact path={`${process.env.PUBLIC_URL}/`} component={SignIn} /> 
                             {/* <Route exact path={`${process.env.PUBLIC_URL}/sign-up`} component={Signup} />
                             <Route exact path={`${process.env.PUBLIC_URL}/password-reset`} component={PasswordReset} />
                             <Route exact path={`${process.env.PUBLIC_URL}/2-step-authentication`} component={StepAuthentication} /> */}
