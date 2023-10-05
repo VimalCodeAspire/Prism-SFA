@@ -26,12 +26,17 @@ function App(props) {
     )
   }
   return (
+    // <div id="mytask-layout" className="theme-indigo">
+    //   <Sidebar activekey={activekey()} history={props.history} />
+    //   <Switch>
+    //     <MainIndex activekey={activekey()} />
+    //   </Switch>
+    // </div>
     <div id="mytask-layout" className="theme-indigo">
-      <Sidebar activekey={activekey()} history={props.history} />
-      <Switch>
-        <MainIndex activekey={activekey()} />
-      </Switch>
-    </div>
+    <Switch>
+      <AuthIndex />
+    </Switch>
+  </div>
   );
 }
 

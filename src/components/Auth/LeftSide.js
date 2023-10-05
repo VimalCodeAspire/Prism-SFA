@@ -1,8 +1,8 @@
-
 import React from "react";
 import loginImg from "../../assets/images/login-img.svg";
 import Icon from "../../assets/images/icon.png";
 function LeftSide() {
+ 
   return (
     <div className="col-lg-6 d-none d-lg-flex justify-content-center align-items-center rounded-lg auth-h100">
       <div style={{ maxWidth: "25rem" }}>

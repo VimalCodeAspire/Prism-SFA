@@ -1,8 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import GoogleImg from "../../assets/images/google.svg";
+import React, { useState } from "react";
+import login from "../../api/login/login-api"
+import Swal from "sweetalert2";
 function SignIn (){
-   
+    const [userId,setUserId] = useState("");
+    const [password,setPassword] = useState("")
+    async function handleSubmit () {
+        if (userId&&password){
+            try {
+                const resp = await login(userId,password)
+                Swal.fire({
+                    title: 'User  Found',
+                    text: 'This user in  registered with us. and your token is '+resp,
+                    icon: 'success',
+                    confirmButtonText: 'thank you'
+                  })
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                    title: 'Can\'t SignIn!',
+                    text: 'Something went wrong.Please try after time',
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                  })
+            }
+        }
+        else{
+            Swal.fire({
+                title: 'Incomplete!',
+                text: 'Please fill the required details',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              })
+        }
+       
+    }
         return(
             <div className="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
                 <div className="w-100 p-3 p-md-5 card border-0 bg-dark text-light" style={{maxWidth: "32rem"}}>
@@ -23,7 +54,7 @@ function SignIn (){
                         <div className="col-12">
                             <div className="mb-2">
                                 <label className="form-label">User Id</label>
-                                <input type="email" className="form-control form-control-lg" placeholder="Email or Phone Number" />
+                                <input type="email" value={userId} onChange={(e)=>setUserId(e.target.value)} className="form-control form-control-lg" placeholder="Email or Phone Number" />
                             </div>
                         </div>
                         <div className="col-12">
@@ -34,7 +65,7 @@ function SignIn (){
                                         {/* <Link className="text-secondary" to="password-reset">Forgot Password?</Link> */}
                                     </span>
                                 </div>
-                                <input type="password" className="form-control form-control-lg" placeholder="***************" />
+                                <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" className="form-control form-control-lg" placeholder="***************" />
                             </div>
                         </div>
                         {/* <div className="col-12">
@@ -45,8 +76,8 @@ function SignIn (){
                                 </label>
                             </div>
                         </div> */}
-                        <div className="col-12 text-center mt-4">
-                            <Link to="/" className="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</Link>
+                        <div onClick={handleSubmit} className="col-12 text-center mt-4">
+                            <p  className="btn btn-lg btn-block btn-light lift text-uppercase" atl="signin">SIGN IN</p>
                         </div>
                         {/* <div className="col-12 text-center mt-4">
                             <span className="text-muted">Don't have an account yet? <Link to="sign-up" className="text-secondary">Sign up here</Link></span>
