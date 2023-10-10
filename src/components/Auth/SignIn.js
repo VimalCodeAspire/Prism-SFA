@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import login from "../../api/login/login-api";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import {constants} from  "../../constants/constants"
 function SignIn() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const Dispatch = useDispatch();
   async function handleSubmit() {
     if (userId && password) {
       try {
         const resp = await login(userId, password);
         if (resp) {
-          if (resp.token == 200) {
-            Swal.fire({
-              title: "User  Found",
-              text:
-                "This user in  registered with us. and your token is " +
-                resp.token
-                  ? resp.token
-                  : "",
-              icon: "success",
-              confirmButtonText: "thank you",
-            });
+          if (resp.statusCode == 200) {
+          await window.localStorage.setItem(constants.token_store,resp.token)
+              Dispatch({
+                type:"setCredentials",
+                payload:{token:resp.token}
+              })
           }
+
         }
       } catch (error) {
         console.log(error);
@@ -40,6 +39,8 @@ function SignIn() {
       });
     }
   }
+ 
+
   return (
     <div className="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
       <div

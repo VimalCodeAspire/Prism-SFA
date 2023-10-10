@@ -1,6 +1,7 @@
 import React from "react";
 import loginImg from "../../assets/images/login-img.svg";
 import Icon from "../../assets/images/icon.png";
+import { constants } from "../../constants/constants";
 function LeftSide() {
  
   return (
@@ -11,9 +12,10 @@ function LeftSide() {
         </div>
         <div className="mb-5">
           <h2 className="color-900 text-center">
-            Prism-SFA Let's Management Better
+            {constants.website_name} Let's Management Better
           </h2>
         </div>
+        
         <div className="">
           <img src={loginImg} alt="login-img" />
         </div>

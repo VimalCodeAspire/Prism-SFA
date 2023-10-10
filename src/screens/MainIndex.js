@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import Header from "../components/common/Header";
 import Expenses from "./Accounts/Expenses";
@@ -53,70 +53,45 @@ import PageHeader1 from "../components/common/PageHeader1";
 import Documentation from "./Documentation/Documentation";
 import Changelog from "./Changelog/Changelog";
 import Help from "./Dashboard/Help";
-
+import { constants } from "../constants/constants";
+import { useDispatch, useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
+import { getMemberDetail } from "../api/member/member-api";
 function MainIndex(props) {
+  const Dispatch = useDispatch();
+  const Cred = useSelector((state) => state.Cred);
+  async function get() {
+    try {
+      const decode = await jwtDecode(Cred.token);
+      const expTime = new Date(decode.exp * 1000);
+      const currentTime = new Date();
+      if (currentTime > expTime) {
+        window.localStorage.removeItem(constants.token_store);
+        Dispatch({
+          type: "deleteCredentials",
+        });
+      } else {
+        getMemberDetail(decode.sub, Cred.token);
+      }
+    } catch (error) {
+      console.log(error);
+      window.localStorage.removeItem(constants.token_store);
+      Dispatch({
+        type: "deleteCredentials",
+      });
+    }
+  }
+  useEffect(() => {
+    get();
+    return () => {};
+  }, []);
 
-    const { activekey } = props;
-    return (
-        <div className="main px-lg-4 px-md-4">
-            {activekey !== "/chat-app" ? activekey === "/documentation" ? <PageHeader1 /> : <Header /> : ""}
-            <div className="body d-flex py-lg-3 py-md-2">
-                <Route exact path={`${process.env.PUBLIC_URL}/`} component={HrDashboard} />
-                <Route exact path={`${process.env.PUBLIC_URL}/hr-dashboard`} component={HrDashboard} />
-                <Route exact path={`${process.env.PUBLIC_URL}/project-dashboard`} component={ProjectDashboard} />
-                <Route exact path={`${process.env.PUBLIC_URL}/projects`} component={Projects} />
-                <Route exact path={`${process.env.PUBLIC_URL}/tasks`} component={Tasks} />
-                <Route exact path={`${process.env.PUBLIC_URL}/timesheet`} component={Timesheet} />
-                <Route exact path={`${process.env.PUBLIC_URL}/leaders`} component={Leaders} />
-                <Route exact path={`${process.env.PUBLIC_URL}/tickets-view`} component={TicketsView} />
-                <Route exact path={`${process.env.PUBLIC_URL}/tickets-detail`} component={TicketsDetail} />
-                <Route exact path={`${process.env.PUBLIC_URL}/clients`} component={Clients} />
-                <Route exact path={`${process.env.PUBLIC_URL}/client-profile`} component={ClientProfile} />
-                <Route exact path={`${process.env.PUBLIC_URL}/members`} component={Members} />
-                <Route exact path={`${process.env.PUBLIC_URL}/members-profile`} component={EmployeeProfile} />
-                <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Holidays} />
-                <Route exact path={`${process.env.PUBLIC_URL}/attendance-employees`} component={AttendanceEmployees} />
-                <Route exact path={`${process.env.PUBLIC_URL}/attendance`} component={Attendance} />
-                <Route exact path={`${process.env.PUBLIC_URL}/leave-request`} component={LeaveRequest} />
-                <Route exact path={`${process.env.PUBLIC_URL}/department`} component={Departments} />
-                <Route exact path={`${process.env.PUBLIC_URL}/invoices`} component={Invoices} />
-                <Route exact path={`${process.env.PUBLIC_URL}/payments`} component={Payments} />
-                <Route exact path={`${process.env.PUBLIC_URL}/expenses`} component={Expenses} />
-                <Route exact path={`${process.env.PUBLIC_URL}/employee-salary`} component={Salaryslip} />
-                <Route exact path={`${process.env.PUBLIC_URL}/calander`} component={Calendar} />
-                <Route exact path={`${process.env.PUBLIC_URL}/chat-app`} component={ChatApp} />
-                <Route exact path={`${process.env.PUBLIC_URL}/apex-charts`} component={ApexCharts} />
-                <Route exact path={`${process.env.PUBLIC_URL}/forms-example`} component={FormsExample} />
-                <Route exact path={`${process.env.PUBLIC_URL}/table-example`} component={TablesExample} />
-                <Route exact path={`${process.env.PUBLIC_URL}/reviews-page`} component={ReviewsPage} />
-                <Route exact path={`${process.env.PUBLIC_URL}/icons`} component={Icons} />
-                <Route exact path={`${process.env.PUBLIC_URL}/widgets`} component={Widgets} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-alerts`} component={Alerts} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-badge`} component={Badges} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-breadcrumb`} component={Breadcrumb} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-buttons`} component={Buttons} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-card`} component={Cards} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-carousel`} component={Carousel} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-collapse`} component={Collapse} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-dropdowns`} component={Dropdowns} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-listgroup`} component={ListGroup} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-modalui`} component={ModalUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-navsui`} component={NavsUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-navbarui`} component={NavbarUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-paginationui`} component={PaginationUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-popoversui`} component={PopoversUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-progressui`} component={ProgressUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-Scrollspyui`} component={Scrollspy} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-spinnersui`} component={SpinnersUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/ui-toastsui`} component={ToastsUI} />
-                <Route exact path={`${process.env.PUBLIC_URL}/stater-page`} component={StaterPage} />
-                <Route exact path={`${process.env.PUBLIC_URL}/documentation`} component={Documentation} />
-                <Route exact path={`${process.env.PUBLIC_URL}/changelog`} component={Changelog} />
-                <Route exact path={`${process.env.PUBLIC_URL}/help`} component={Help} />
-            </div>
-        </div>
-    )
+  const { activekey } = props;
+  return (
+    <div className="main px-lg-4 px-md-4">
+      <Route exact path={`${process.env.PUBLIC_URL}/`} component={Members} />{" "}
+    </div>
+  );
 }
-
 
 export default MainIndex;

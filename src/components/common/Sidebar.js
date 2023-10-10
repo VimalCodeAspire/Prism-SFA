@@ -4,7 +4,8 @@ import menu  from "../Data/menu.json";
 import menu2 from "../Data/menu2.json";
 import { useState } from "react";
 import { useEffect } from "react";
-console.log("menu",menu);
+import { constants } from "../../constants/constants";
+
 function Sidebar(props) {
 
     const [isSidebarMini, setIsSidebarMini] = useState(false);
@@ -101,7 +102,7 @@ function Sidebar(props) {
     return (
         <div id="mainSideMenu" className={`sidebar px-4 py-4 py-md-5 me-0 ${isSidebarMini ? "sidebar-mini" : ""}`}>
             <div className="d-flex flex-column h-100">
-                <a href="hr-dashboard" className="mb-0 brand-icon">
+                <a href="/" className="mb-0 brand-icon">
                     <span className="logo-icon">
                         <svg width="35" height="35" fill="currentColor" className="bi bi-clipboard-check" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"></path>
@@ -109,7 +110,7 @@ function Sidebar(props) {
                             <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
                         </svg>
                     </span>
-                    <span className="logo-text">My-Task</span>
+                    <span className="logo-text">{constants.website_name}</span>
                 </a>
                 <ul className="menu-list flex-grow-1 mt-3">
                     {
